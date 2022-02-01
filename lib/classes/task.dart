@@ -1,8 +1,8 @@
 class Task {
-  int id;
-  String content;
+  final int id;
+  final String content;
   bool completed;
-  DateTime createdAt;
+  final DateTime createdAt;
 
   Task(
       {required this.id,

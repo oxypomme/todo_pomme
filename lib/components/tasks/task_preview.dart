@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:todo_pomme/classes/task.dart';
 
 class TaskPreview extends StatefulWidget {
-  const TaskPreview({Key? key, required this.task}) : super(key: key);
+  const TaskPreview({Key? key, required this.task, this.onItemClick})
+      : super(key: key);
 
   final Task task;
+  final Function()? onItemClick;
 
   @override
   _TaskPreviewState createState() => _TaskPreviewState();
 }
 
 class _TaskPreviewState extends State<TaskPreview> {
-  void onItemClick() {
+  void checkItem(bool? newValue) {
     setState(() {
-      widget.task.completed = !widget.task.completed;
+      widget.task.completed = newValue ?? false;
     });
+    widget.onItemClick!();
   }
 
   @override
@@ -24,12 +27,10 @@ class _TaskPreviewState extends State<TaskPreview> {
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: onItemClick,
+      onTap: widget.onItemClick,
       child: Row(
         children: <Widget>[
-          Checkbox(
-              value: widget.task.completed,
-              onChanged: (newValue) => onItemClick()),
+          Checkbox(value: widget.task.completed, onChanged: checkItem),
           Expanded(
               child: Text(
             widget.task.content,
