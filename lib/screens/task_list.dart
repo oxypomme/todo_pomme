@@ -22,6 +22,13 @@ class _TaskListState extends State<TaskList> {
     });
   }
 
+  void onItemDelete(Task task) {
+    data.tasks.remove(task);
+    setState(() {
+      _currentTask = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +36,10 @@ class _TaskListState extends State<TaskList> {
           title: Text(widget.title),
         ),
         body: Column(children: [
-          TaskDetail(task: _currentTask),
+          TaskDetail(
+            task: _currentTask,
+            onDelete: onItemDelete,
+          ),
           TaskMaster(
             taskList: data.tasks,
             onItemClick: onItemClick,
