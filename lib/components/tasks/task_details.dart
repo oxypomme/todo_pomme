@@ -26,19 +26,24 @@ class TaskDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
         visible: task != null,
-        child: Column(
-          children: [
-            Text("Label : " + (task?.content ?? '')),
-            Text("Status : " + (task?.completed.toString() ?? '')),
-            Text("Creation : " + (task?.createdAt.toString() ?? '')),
-            Row(
-              children: [
-                ElevatedButton(
-                    onPressed: () => onDeletePressed(context),
-                    child: const Text("Supprimer"))
-              ],
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16),
+          child: Column(
+            children: [
+              Text((task?.content ?? '')),
+              Text((task?.completed == true ? 'Fait' : 'A faire')),
+              Text("Creation : " + (task?.createdAt.toString() ?? '')),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () => onDeletePressed(context),
+                      child: const Text("Supprimer")),
+                ],
+              ),
+              const Divider(),
+            ],
+          ),
         ));
   }
 }

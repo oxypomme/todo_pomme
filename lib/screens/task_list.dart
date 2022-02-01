@@ -43,7 +43,7 @@ class _TaskListState extends State<TaskList> {
           TaskMaster(
             taskList: data.tasks,
             onItemClick: onItemClick,
-          )
+          ),
         ]));
   }
 }

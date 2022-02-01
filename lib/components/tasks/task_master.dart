@@ -12,13 +12,13 @@ class TaskMaster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: ListView(
-      children: taskList
-          .map<Widget>((t) => TaskPreview(
-                task: t,
-                onItemClick: () => onItemClick!(t),
-              ))
-          .toList(),
+        child: ListView.separated(
+      separatorBuilder: (context, i) => const Divider(),
+      itemCount: taskList.length,
+      itemBuilder: (context, i) => TaskPreview(
+        task: taskList[i],
+        onItemClick: () => onItemClick!(taskList[i]),
+      ),
     ));
   }
 }
