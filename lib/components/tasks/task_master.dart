@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:todo_pomme/classes/task.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_pomme/components/tasks/task_preview.dart';
+import 'package:todo_pomme/data/tasks_collection.dart';
 
 class TaskMaster extends StatelessWidget {
-  const TaskMaster({Key? key, required this.taskList, this.onItemClick})
-      : super(key: key);
-
-  final List<Task> taskList;
-  final Function(Task)? onItemClick;
+  const TaskMaster({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: ListView.separated(
-      separatorBuilder: (context, i) => const Divider(),
-      itemCount: taskList.length,
-      itemBuilder: (context, i) => TaskPreview(
-        task: taskList[i],
-        onItemClick: () => onItemClick!(taskList[i]),
-      ),
-    ));
+    return Consumer<TaskCollection>(
+      builder: (context, collection, child) => Expanded(
+          child: ListView.separated(
+        separatorBuilder: (context, i) => const Divider(),
+        itemCount: collection.tasks.length,
+        itemBuilder: (context, i) => TaskPreview(
+          task: collection.tasks[i],
+        ),
+      )),
+    );
   }
 }

@@ -1,49 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:todo_pomme/classes/task.dart';
 import 'package:todo_pomme/components/tasks/task_details.dart';
 import 'package:todo_pomme/components/tasks/task_master.dart';
-import 'package:todo_pomme/data/tasks.dart' as data;
 
-class TaskList extends StatefulWidget {
+class TaskList extends StatelessWidget {
   const TaskList({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<TaskList> createState() => _TaskListState();
-}
-
-class _TaskListState extends State<TaskList> {
-  Task? _currentTask;
-
-  void onItemClick(Task task) {
-    setState(() {
-      _currentTask = task;
-    });
-  }
-
-  void onItemDelete(Task task) {
-    data.tasks.remove(task);
-    setState(() {
-      _currentTask = null;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(title),
         ),
-        body: Column(children: [
-          TaskDetail(
-            task: _currentTask,
-            onDelete: onItemDelete,
-          ),
-          TaskMaster(
-            taskList: data.tasks,
-            onItemClick: onItemClick,
-          ),
+        body: Column(children: const [
+          TaskDetails(),
+          TaskMaster(),
         ]));
   }
 }
