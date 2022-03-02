@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_pomme/data/tasks_collection.dart';
+import '../../data/tasks_collection.dart';
 
 class TaskDetails extends StatelessWidget {
   const TaskDetails({Key? key}) : super(key: key);
@@ -8,7 +8,7 @@ class TaskDetails extends StatelessWidget {
   void onDeletePressed(BuildContext context) {
     final task =
         Provider.of<TaskCollection>(context, listen: false).currentTask;
-    final snackBar = SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content:
           Text('Confirmer la supression de "' + (task?.content ?? '') + '"'),
       action: SnackBarAction(
@@ -17,8 +17,13 @@ class TaskDetails extends StatelessWidget {
           Provider.of<TaskCollection>(context, listen: false).delete(task!);
         },
       ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    ));
+  }
+
+  void onEditPressed(BuildContext context) {
+    final task =
+        Provider.of<TaskCollection>(context, listen: false).currentTask;
+    Navigator.pushNamed(context, '/one_task', arguments: task);
   }
 
   @override
@@ -40,8 +45,15 @@ class TaskDetails extends StatelessWidget {
                   alignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        onPressed: () => onDeletePressed(context),
-                        child: const Text("Supprimer")),
+                      onPressed: () => onDeletePressed(context),
+                      child: const Text("Supprimer"),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.red)),
+                    ),
+                    ElevatedButton(
+                        onPressed: () => onEditPressed(context),
+                        child: const Text("Editer")),
                   ],
                 ),
                 const Divider(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_pomme/classes/task.dart';
-import 'package:todo_pomme/data/tasks_collection.dart';
+import '../../classes/task.dart';
+import '../../data/tasks_collection.dart';
 
 class TaskPreview extends StatefulWidget {
   const TaskPreview({Key? key, required this.task}) : super(key: key);

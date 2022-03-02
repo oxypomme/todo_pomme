@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_pomme/components/tasks/task_details.dart';
-import 'package:todo_pomme/components/tasks/task_master.dart';
+import '../components/tasks/task_details.dart';
+import '../components/tasks/task_master.dart';
 
 class TaskList extends StatelessWidget {
   const TaskList({Key? key, required this.title}) : super(key: key);

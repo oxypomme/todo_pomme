@@ -1,6 +1,6 @@
 # todo_pomme
 
-A new Flutter project.
+A new Flutter project by **SUBLET Tom**
 
 ## Getting Started
 
