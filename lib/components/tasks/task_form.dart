@@ -21,18 +21,21 @@ class _TaskFromState extends State<TaskFrom> {
   void onSubmit(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       var provider = Provider.of<TaskCollection>(context, listen: false);
-      if (widget.task != null) {
-        //BUG: Not updating
-        provider.update(widget.task!);
-      } else {
-        //TEST: Not tested
-        provider.create(Task(
-            id: 999, content: _contentController.text, completed: _completed));
+      var id = widget.task?.id ?? provider.tasks.length;
+
+      if (_contentController.text.isNotEmpty) {
+        var task = Task(
+            id: id, content: _contentController.text, completed: _completed);
+        if (widget.task != null) {
+          provider.update(task, id);
+        } else {
+          provider.create(task);
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sauvegarde réussie !')),
+        );
+        Navigator.pop(context);
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sauvegarde réussie !')),
-      );
-      Navigator.pop(context);
     }
   }
 
@@ -43,11 +46,16 @@ class _TaskFromState extends State<TaskFrom> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     if (widget.task != null) {
       changeStatus(widget.task!.completed);
       _contentController.text = widget.task!.content;
     }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Form(
         key: _formKey,
         child: Container(
@@ -56,7 +64,11 @@ class _TaskFromState extends State<TaskFrom> {
             children: <Widget>[
               TextFormField(
                 controller: _contentController,
-                decoration: const InputDecoration(labelText: "Nom*"),
+                decoration: InputDecoration(
+                    labelText: "Nom*",
+                    errorText: _contentController.text.isEmpty
+                        ? "Un nom est requis"
+                        : null),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Veuillez entrer un nom valide';

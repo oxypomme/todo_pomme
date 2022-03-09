@@ -21,8 +21,7 @@ class TaskCollection extends ChangeNotifier {
     notifyListeners();
   }
 
-  void update(Task task) {
-    var index = _tasks.indexOf(task);
+  void update(Task task, int index) {
     _tasks[index] = task;
     notifyListeners();
   }
