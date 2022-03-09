@@ -23,12 +23,19 @@ class TaskCollection extends ChangeNotifier {
 
   void update(Task task, int index) {
     _tasks[index] = task;
+    // Check if edited task is the current one
+    if (currentTask?.id == task.id) {
+      currentTask = _tasks[index];
+    }
     notifyListeners();
   }
 
   void delete(Task task) {
     _tasks.remove(task);
-    currentTask = null;
+    // Check if deleted task is the current one
+    if (currentTask?.id == task.id) {
+      currentTask = null;
+    }
     notifyListeners();
   }
 }

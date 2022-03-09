@@ -10,12 +10,19 @@ class TaskList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Column(children: const [
-          TaskDetails(),
-          TaskMaster(),
-        ]));
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Column(children: const [
+        TaskDetails(),
+        TaskMaster(),
+      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/create_task');
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }

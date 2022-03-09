@@ -25,7 +25,10 @@ class _TaskFromState extends State<TaskFrom> {
 
       if (_contentController.text.isNotEmpty) {
         var task = Task(
-            id: id, content: _contentController.text, completed: _completed);
+            id: id,
+            content: _contentController.text,
+            completed: _completed,
+            createdAt: widget.task?.createdAt);
         if (widget.task != null) {
           provider.update(task, id);
         } else {
