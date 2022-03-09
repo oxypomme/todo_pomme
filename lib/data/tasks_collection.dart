@@ -3,10 +3,17 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 
 import '../classes/task.dart';
-import 'tasks.dart' as data;
+import 'tasks.dart';
 
 class TaskCollection extends ChangeNotifier {
-  final _tasks = data.tasks;
+  TaskCollection() {
+    fetchTodos().then((value) {
+      _tasks = value;
+      notifyListeners();
+    });
+  }
+
+  List<Task> _tasks = [];
   UnmodifiableListView<Task> get tasks => UnmodifiableListView(_tasks);
 
   Task? _currentTask;
