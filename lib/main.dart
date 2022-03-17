@@ -36,7 +36,7 @@ class TodoList extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            initialRoute: '/auth',
+            initialRoute: '/all_tasks',
             routes: {
               '/all_tasks': (context) => const TaskList(title: title),
               '/one_task': (context) => const OneTask(title: title),
