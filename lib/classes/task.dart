@@ -1,15 +1,32 @@
+import 'package:firebase_database/firebase_database.dart';
+
 class Task {
-  final int id;
+  final String? id;
   final String content;
   bool completed;
   final DateTime createdAt;
 
   Task(
-      {required this.id,
+      {this.id,
       required this.content,
       this.completed = false,
       DateTime? createdAt})
       : createdAt = createdAt ?? DateTime.now();
+
+  factory Task.fromFire(DataSnapshot snapshot) {
+    var data = snapshot.value as Map;
+    return Task(
+        id: snapshot.key,
+        content: data['title'],
+        completed: data['completed'],
+        createdAt: DateTime.parse(data['created']));
+  }
+
+  Map<String, dynamic> toFire() => {
+        'title': content,
+        'completed': completed,
+        'created': createdAt.toIso8601String()
+      };
 
   Task.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -21,6 +38,6 @@ class Task {
         'id': id,
         'title': content,
         'completed': completed,
-        'created': createdAt
+        'created': createdAt.toIso8601String()
       };
 }

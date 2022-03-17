@@ -4,10 +4,6 @@ import 'package:faker/faker.dart';
 import '../classes/task.dart';
 import 'package:http/http.dart' as http;
 
-// var _faker = Faker();
-// var tasks = List.generate(
-//     20, (int index) => Task(id: index, content: _faker.lorem.sentence()));
-
 Future<List<Task>> fetchTodos() async {
   try {
     final response =
@@ -25,6 +21,8 @@ Future<List<Task>> fetchTodos() async {
   } catch (error) {
     final faker = Faker();
     return List.generate(
-        20, (int index) => Task(id: index, content: faker.lorem.sentence()));
+        20,
+        (int index) =>
+            Task(id: index.toString(), content: faker.lorem.sentence()));
   }
 }

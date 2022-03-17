@@ -2,6 +2,8 @@
 
 A new Flutter project by **SUBLET Tom**
 
+Each git tag represent a TD answer.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

@@ -13,15 +13,21 @@ class TaskPreview extends StatefulWidget {
 }
 
 class _TaskPreviewState extends State<TaskPreview> {
-  void checkItem(bool? newValue) {
-    setState(() {
-      widget.task.completed = newValue ?? false;
-    });
+  late final TaskCollection _provider;
+
+  void checkItem(bool? newValue) async {
+    widget.task.completed = newValue ?? false;
+    await _provider.update(widget.task);
   }
 
   void onItemClick(BuildContext context) {
-    Provider.of<TaskCollection>(context, listen: false).currentTask =
-        widget.task;
+    _provider.currentTask = widget.task;
+  }
+
+  @override
+  void initState() {
+    _provider = Provider.of<TaskCollection>(context, listen: false);
+    super.initState();
   }
 
   @override

@@ -18,21 +18,21 @@ class _TaskFromState extends State<TaskFrom> {
 
   bool _completed = false;
 
-  void onSubmit(BuildContext context) {
+  void onSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       var provider = Provider.of<TaskCollection>(context, listen: false);
-      var id = widget.task?.id ?? provider.tasks.length;
 
       if (_contentController.text.isNotEmpty) {
         var task = Task(
-            id: id,
+            id: widget.task?.id,
             content: _contentController.text,
             completed: _completed,
             createdAt: widget.task?.createdAt);
+
         if (widget.task != null) {
-          provider.update(task, id);
+          await provider.update(task);
         } else {
-          provider.create(task);
+          await provider.create(task);
         }
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Sauvegarde réussie !')),

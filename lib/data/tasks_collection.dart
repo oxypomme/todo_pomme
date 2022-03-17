@@ -1,18 +1,33 @@
 import 'dart:collection';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../classes/task.dart';
-import 'tasks.dart';
+
+final FirebaseDatabase db = FirebaseDatabase.instance;
 
 class TaskCollection extends ChangeNotifier {
   TaskCollection() {
-    fetchTodos().then((value) {
-      _tasks = value;
+    // fetchTodos().then((value) {
+    //   _tasks = value;
+    //   notifyListeners();
+    // });
+    const userId = 'default';
+    _tasksRef = db.ref('/tasks/$userId/');
+
+    _tasksRef.onValue.listen((event) {
+      _tasks = [];
+      for (final task in event.snapshot.children) {
+        if (task.exists) {
+          _tasks.add(Task.fromFire(task));
+        }
+      }
       notifyListeners();
     });
   }
 
+  late final DatabaseReference _tasksRef;
   List<Task> _tasks = [];
   UnmodifiableListView<Task> get tasks => UnmodifiableListView(_tasks);
 
@@ -23,26 +38,23 @@ class TaskCollection extends ChangeNotifier {
     notifyListeners();
   }
 
-  void create(Task task) {
-    _tasks.add(task);
-    notifyListeners();
+  Future<void> create(Task task) async {
+    final ref = _tasksRef.push();
+    await ref.set(task.toFire());
   }
 
-  void update(Task task, int index) {
-    _tasks[index] = task;
-    // Check if edited task is the current one
-    if (currentTask?.id == task.id) {
-      currentTask = _tasks[index];
-    }
-    notifyListeners();
+  Future<void> update(Task task) async {
+    final ref = _tasksRef.child(task.id!);
+    await ref.set(task.toFire());
   }
 
-  void delete(Task task) {
-    _tasks.remove(task);
+  Future<void> delete(Task task) async {
+    final ref = _tasksRef.child(task.id!);
+    await ref.remove();
+
     // Check if deleted task is the current one
     if (currentTask?.id == task.id) {
       currentTask = null;
     }
-    notifyListeners();
   }
 }
