@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_pomme/components/tasks/task_menu.dart';
 import '../components/tasks/task_details.dart';
 import '../components/tasks/task_master.dart';
 
@@ -12,6 +13,7 @@ class TaskList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        actions: const [TaskMenu()],
       ),
       body: Column(children: const [
         TaskDetails(),
